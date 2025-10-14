@@ -37,7 +37,7 @@ const CompanyForm = ({
     }
     
     if (formData.website && formData.website.trim()) {
-      const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
       if (!urlPattern.test(formData.website.trim())) {
         newErrors.website = "Please enter a valid website URL"
       }
