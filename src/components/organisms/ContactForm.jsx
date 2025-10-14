@@ -13,7 +13,7 @@ const ContactForm = ({
   onSave, 
   onCancel,
   className 
-) => {
+}) => {
   const [companies, setCompanies] = useState([])
   const [companiesLoading, setCompaniesLoading] = useState(true)
   const [formData, setFormData] = useState({
