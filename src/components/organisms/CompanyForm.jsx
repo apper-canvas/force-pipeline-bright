@@ -55,7 +55,7 @@ const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
     }
 
     if (formData.phone && formData.phone.trim()) {
-      const phonePattern = /^[\d\s\-\+\(\)]{10,}$/
+const phonePattern = /^[\d\s\-+()]{10,}$/
       if (!phonePattern.test(formData.phone.trim())) {
         newErrors.phone = "Please enter a valid phone number"
       }
