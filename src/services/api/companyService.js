@@ -9,12 +9,16 @@ export const companyService = {
   async getAll() {
     try {
       const params = {
-        fields: [
+fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "Name"}},
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "description_c"}},
           {"field": {"Name": "website_c"}},
+          {"field": {"Name": "industry_c"}},
+          {"field": {"Name": "email_c"}},
+          {"field": {"Name": "phone_c"}},
+          {"field": {"Name": "address_c"}},
           {"field": {"Name": "Tags"}},
           {"field": {"name": "Owner"}, "referenceField": {"field": {"Name": "Name"}}},
           {"field": {"Name": "CreatedOn"}},
@@ -31,10 +35,14 @@ export const companyService = {
       }
       
       return response.data.map(company => ({
-        Id: company.Id,
+Id: company.Id,
         name: company.name_c || company.Name || '',
         description: company.description_c || '',
         website: company.website_c || '',
+        industry: company.industry_c || '',
+        email: company.email_c || '',
+        phone: company.phone_c || '',
+        address: company.address_c || '',
         tags: company.Tags ? company.Tags.split(',').map(t => t.trim()) : [],
         owner: company.Owner?.Name || '',
         createdAt: company.CreatedOn,
@@ -50,11 +58,15 @@ export const companyService = {
     try {
       const params = {
         fields: [
-          {"field": {"Name": "Id"}},
+{"field": {"Name": "Id"}},
           {"field": {"Name": "Name"}},
           {"field": {"Name": "name_c"}},
           {"field": {"Name": "description_c"}},
           {"field": {"Name": "website_c"}},
+          {"field": {"Name": "industry_c"}},
+          {"field": {"Name": "email_c"}},
+          {"field": {"Name": "phone_c"}},
+          {"field": {"Name": "address_c"}},
           {"field": {"Name": "Tags"}},
           {"field": {"name": "Owner"}, "referenceField": {"field": {"Name": "Name"}}},
           {"field": {"Name": "CreatedOn"}},
@@ -71,10 +83,14 @@ export const companyService = {
       
       const company = response.data
       return {
-        Id: company.Id,
+Id: company.Id,
         name: company.name_c || company.Name || '',
         description: company.description_c || '',
         website: company.website_c || '',
+        industry: company.industry_c || '',
+        email: company.email_c || '',
+        phone: company.phone_c || '',
+        address: company.address_c || '',
         tags: company.Tags ? company.Tags.split(',').map(t => t.trim()) : [],
         owner: company.Owner?.Name || '',
         createdAt: company.CreatedOn,
@@ -90,9 +106,13 @@ export const companyService = {
     try {
       const params = {
         records: [{
-          name_c: companyData.name?.trim() || '',
+name_c: companyData.name?.trim() || '',
           description_c: companyData.description?.trim() || '',
-          website_c: companyData.website?.trim() || ''
+          website_c: companyData.website?.trim() || '',
+          industry_c: companyData.industry?.trim() || '',
+          email_c: companyData.email?.trim() || '',
+          phone_c: companyData.phone?.trim() || '',
+          address_c: companyData.address?.trim() || ''
         }]
       }
       
@@ -142,10 +162,13 @@ export const companyService = {
       const updateData = {
         Id: parseInt(id)
       }
-      
-      if (companyData.name !== undefined) updateData.name_c = companyData.name.trim()
+if (companyData.name !== undefined) updateData.name_c = companyData.name.trim()
       if (companyData.description !== undefined) updateData.description_c = companyData.description.trim()
       if (companyData.website !== undefined) updateData.website_c = companyData.website.trim()
+      if (companyData.industry !== undefined) updateData.industry_c = companyData.industry.trim()
+      if (companyData.email !== undefined) updateData.email_c = companyData.email.trim()
+      if (companyData.phone !== undefined) updateData.phone_c = companyData.phone.trim()
+      if (companyData.address !== undefined) updateData.address_c = companyData.address.trim()
       if (companyData.tags !== undefined) {
         updateData.Tags = Array.isArray(companyData.tags) 
           ? companyData.tags.join(',') 
@@ -172,10 +195,14 @@ export const companyService = {
         
         const company = result.data
         return {
-          Id: company.Id,
+Id: company.Id,
           name: company.name_c || company.Name || '',
           description: company.description_c || '',
           website: company.website_c || '',
+          industry: company.industry_c || '',
+          email: company.email_c || '',
+          phone: company.phone_c || '',
+          address: company.address_c || '',
           tags: company.Tags ? company.Tags.split(',').map(t => t.trim()) : [],
           owner: company.Owner?.Name || '',
           createdAt: company.CreatedOn,

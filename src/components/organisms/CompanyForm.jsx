@@ -12,10 +12,14 @@ const CompanyForm = ({
   onCancel,
   className 
 }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     name: company?.name || "",
     description: company?.description || "",
     website: company?.website || "",
+    industry: company?.industry || "",
+    email: company?.email || "",
+    phone: company?.phone || "",
+    address: company?.address || "",
     tags: company?.tags?.join(", ") || ""
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -30,7 +34,7 @@ const CompanyForm = ({
   }
 
   const validateForm = () => {
-    const newErrors = {}
+const newErrors = {}
     
     if (!formData.name.trim()) {
       newErrors.name = "Company name is required"
@@ -40,6 +44,20 @@ const CompanyForm = ({
 const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
       if (!urlPattern.test(formData.website.trim())) {
         newErrors.website = "Please enter a valid website URL"
+      }
+    }
+
+    if (formData.email && formData.email.trim()) {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailPattern.test(formData.email.trim())) {
+        newErrors.email = "Please enter a valid email address"
+      }
+    }
+
+    if (formData.phone && formData.phone.trim()) {
+      const phonePattern = /^[\d\s\-\+\(\)]{10,}$/
+      if (!phonePattern.test(formData.phone.trim())) {
+        newErrors.phone = "Please enter a valid phone number"
       }
     }
 
@@ -76,7 +94,7 @@ const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
 
   return (
     <form onSubmit={handleSubmit} className={cn("space-y-6", className)}>
-      <div className="space-y-6">
+<div className="space-y-6">
         <Input
           name="name"
           label="Company Name"
@@ -86,7 +104,7 @@ const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
           placeholder="Enter company name"
           required
         />
-        
+
         <Input
           name="website"
           label="Website"
@@ -94,6 +112,43 @@ const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
           onChange={handleChange}
           error={errors.website}
           placeholder="https://example.com"
+        />
+
+        <Input
+          name="industry"
+          label="Industry"
+          value={formData.industry}
+          onChange={handleChange}
+          placeholder="e.g., Technology, Healthcare, Finance"
+        />
+
+        <Input
+          name="email"
+          label="Email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          error={errors.email}
+          placeholder="contact@company.com"
+        />
+
+        <Input
+          name="phone"
+          label="Phone"
+          type="tel"
+          value={formData.phone}
+          onChange={handleChange}
+          error={errors.phone}
+          placeholder="+1 (555) 123-4567"
+        />
+
+        <Textarea
+          name="address"
+          label="Address"
+          value={formData.address}
+          onChange={handleChange}
+          placeholder="Enter company address..."
+          rows={3}
         />
 
         <Textarea

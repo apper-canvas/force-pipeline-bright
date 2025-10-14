@@ -43,10 +43,14 @@ const Companies = () => {
     let filtered = [...companies]
 
     if (searchTerm) {
-      filtered = filtered.filter(company =>
+filtered = filtered.filter(company =>
         company.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         company.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         company.website?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        company.industry?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        company.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        company.phone?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        company.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         company.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
       )
     }
@@ -133,7 +137,7 @@ const Companies = () => {
                     {company.name}
                   </h3>
                   {company.website && (
-                    <a
+<a
                       href={company.website}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -167,6 +171,37 @@ const Companies = () => {
                   {company.description}
                 </p>
               )}
+
+              <div className="space-y-2 mb-4">
+                {company.industry && (
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <ApperIcon name="Briefcase" size={14} />
+                    <span>{company.industry}</span>
+                  </div>
+                )}
+                {company.email && (
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <ApperIcon name="Mail" size={14} />
+                    <a href={`mailto:${company.email}`} className="hover:text-primary-600">
+                      {company.email}
+                    </a>
+                  </div>
+                )}
+                {company.phone && (
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <ApperIcon name="Phone" size={14} />
+                    <a href={`tel:${company.phone}`} className="hover:text-primary-600">
+                      {company.phone}
+                    </a>
+                  </div>
+                )}
+                {company.address && (
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <ApperIcon name="MapPin" size={14} />
+                    <span className="line-clamp-1">{company.address}</span>
+                  </div>
+                )}
+              </div>
 
               {company.tags && company.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-4">
