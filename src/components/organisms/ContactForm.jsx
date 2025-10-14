@@ -1,20 +1,24 @@
-import { useState } from "react"
-import { cn } from "@/utils/cn"
-import Input from "@/components/atoms/Input"
-import Textarea from "@/components/atoms/Textarea"
-import Button from "@/components/atoms/Button"
-import ApperIcon from "@/components/ApperIcon"
-import { toast } from "react-toastify"
+import React, { useEffect, useState } from "react";
+import { companyService } from "@/services/api/companyService";
+import { toast } from "react-toastify";
+import { cn } from "@/utils/cn";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import Select from "@/components/atoms/Select";
+import Input from "@/components/atoms/Input";
+import Textarea from "@/components/atoms/Textarea";
 
-const ContactForm = ({ 
+const ContactForm = ({
   contact, 
   onSave, 
   onCancel,
   className 
-}) => {
+) => {
+  const [companies, setCompanies] = useState([])
+  const [companiesLoading, setCompaniesLoading] = useState(true)
   const [formData, setFormData] = useState({
     name: contact?.name || "",
-    company: contact?.company || "",
+    companyId: contact?.companyId || "",
     email: contact?.email || "",
     phone: contact?.phone || "",
     notes: contact?.notes || "",
@@ -22,6 +26,23 @@ const ContactForm = ({
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState({})
+
+  const loadCompanies = async () => {
+    try {
+      setCompaniesLoading(true)
+      const companiesData = await companyService.getAll()
+      setCompanies(companiesData)
+    } catch (error) {
+      console.error("Error loading companies:", error)
+      toast.error("Failed to load companies")
+    } finally {
+      setCompaniesLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    loadCompanies()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -31,23 +52,22 @@ const ContactForm = ({
     }
   }
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {}
     
     if (!formData.name.trim()) {
       newErrors.name = "Name is required"
     }
     
-    if (!formData.company.trim()) {
-      newErrors.company = "Company is required"
+    if (!formData.companyId) {
+      newErrors.companyId = "Company is required"
     }
     
-    if (!formData.email.trim()) {
+if (!formData.email.trim()) {
       newErrors.email = "Email is required"
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address"
-}
-
+    }
     if (formData.phone && !/^[\d\s\-+().]+$/.test(formData.phone)) {
       newErrors.phone = "Please enter a valid phone number"
     }
@@ -83,7 +103,7 @@ const ContactForm = ({
     }
   }
 
-  return (
+return (
     <form onSubmit={handleSubmit} className={cn("space-y-6", className)}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input
@@ -96,16 +116,22 @@ const ContactForm = ({
           required
         />
         
-        <Input
-          name="company"
+        <Select
+          name="companyId"
           label="Company"
-          value={formData.company}
+          value={formData.companyId}
           onChange={handleChange}
-          error={errors.company}
-          placeholder="Enter company name"
+          error={errors.companyId}
+          disabled={companiesLoading}
           required
+          options={[
+            { value: "", label: companiesLoading ? "Loading companies..." : "Select a company" },
+            ...companies.map(company => ({
+              value: company.Id.toString(),
+              label: company.name
+            }))
+          ]}
         />
-        
         <Input
           name="email"
           type="email"

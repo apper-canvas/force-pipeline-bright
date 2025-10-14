@@ -6,13 +6,13 @@ const apperClient = new ApperClient({
 })
 
 export const contactService = {
-  async getAll() {
+async getAll() {
     try {
       const params = {
         fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "name_c"}},
-          {"field": {"Name": "company_c"}},
+          {"field": {"name": "company_id_c"}, "referenceField": {"field": {"Name": "Name"}}},
           {"field": {"Name": "email_c"}},
           {"field": {"Name": "phone_c"}},
           {"field": {"Name": "tags_c"}},
@@ -33,7 +33,8 @@ export const contactService = {
       return response.data.map(contact => ({
         Id: contact.Id,
         name: contact.name_c || '',
-        company: contact.company_c || '',
+        company: contact.company_id_c?.Name || '',
+        companyId: contact.company_id_c?.Id || null,
         email: contact.email_c || '',
         phone: contact.phone_c || '',
         tags: contact.tags_c ? contact.tags_c.split(',').map(t => t.trim()) : [],
@@ -47,13 +48,13 @@ export const contactService = {
     }
   },
 
-  async getById(id) {
+async getById(id) {
     try {
       const params = {
         fields: [
           {"field": {"Name": "Id"}},
           {"field": {"Name": "name_c"}},
-          {"field": {"Name": "company_c"}},
+          {"field": {"name": "company_id_c"}, "referenceField": {"field": {"Name": "Name"}}},
           {"field": {"Name": "email_c"}},
           {"field": {"Name": "phone_c"}},
           {"field": {"Name": "tags_c"}},
@@ -74,7 +75,8 @@ export const contactService = {
       return {
         Id: contact.Id,
         name: contact.name_c || '',
-        company: contact.company_c || '',
+        company: contact.company_id_c?.Name || '',
+        companyId: contact.company_id_c?.Id || null,
         email: contact.email_c || '',
         phone: contact.phone_c || '',
         tags: contact.tags_c ? contact.tags_c.split(',').map(t => t.trim()) : [],
@@ -88,17 +90,23 @@ export const contactService = {
     }
   },
 
-  async create(contactData) {
+async create(contactData) {
     try {
+      const recordData = {
+        name_c: contactData.name?.trim() || '',
+        email_c: contactData.email?.trim() || '',
+        phone_c: contactData.phone?.trim() || '',
+        tags_c: Array.isArray(contactData.tags) ? contactData.tags.join(',') : (contactData.tags || ''),
+        notes_c: contactData.notes?.trim() || ''
+      }
+      
+      // Only add company_id_c if companyId is provided
+      if (contactData.companyId) {
+        recordData.company_id_c = parseInt(contactData.companyId)
+      }
+      
       const params = {
-        records: [{
-          name_c: contactData.name?.trim() || '',
-          company_c: contactData.company?.trim() || '',
-          email_c: contactData.email?.trim() || '',
-          phone_c: contactData.phone?.trim() || '',
-          tags_c: Array.isArray(contactData.tags) ? contactData.tags.join(',') : (contactData.tags || ''),
-          notes_c: contactData.notes?.trim() || ''
-        }]
+        records: [recordData]
       }
       
       const response = await apperClient.createRecord('contact_c', params)
@@ -119,7 +127,8 @@ export const contactService = {
         return {
           Id: contact.Id,
           name: contact.name_c || '',
-          company: contact.company_c || '',
+          company: contact.company_id_c?.Name || '',
+          companyId: contact.company_id_c?.Id || null,
           email: contact.email_c || '',
           phone: contact.phone_c || '',
           tags: contact.tags_c ? contact.tags_c.split(',').map(t => t.trim()) : [],
@@ -136,14 +145,20 @@ export const contactService = {
     }
   },
 
-  async update(id, contactData) {
+async update(id, contactData) {
     try {
       const updateData = {
         Id: parseInt(id)
       }
       
       if (contactData.name !== undefined) updateData.name_c = contactData.name.trim()
-      if (contactData.company !== undefined) updateData.company_c = contactData.company.trim()
+      if (contactData.companyId !== undefined) {
+        if (contactData.companyId) {
+          updateData.company_id_c = parseInt(contactData.companyId)
+        } else {
+          updateData.company_id_c = null
+        }
+      }
       if (contactData.email !== undefined) updateData.email_c = contactData.email.trim()
       if (contactData.phone !== undefined) updateData.phone_c = contactData.phone.trim()
       if (contactData.tags !== undefined) {
@@ -175,7 +190,8 @@ export const contactService = {
         return {
           Id: contact.Id,
           name: contact.name_c || '',
-          company: contact.company_c || '',
+          company: contact.company_id_c?.Name || '',
+          companyId: contact.company_id_c?.Id || null,
           email: contact.email_c || '',
           phone: contact.phone_c || '',
           tags: contact.tags_c ? contact.tags_c.split(',').map(t => t.trim()) : [],

@@ -10,9 +10,10 @@ const Header = () => {
   const navigate = useNavigate()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { logout } = useContext(AuthContext)
-  const navigation = [
+const navigation = [
     { name: "Dashboard", href: "/", icon: "LayoutDashboard" },
     { name: "Contacts", href: "/contacts", icon: "Users" },
+    { name: "Companies", href: "/companies", icon: "Building" },
     { name: "Pipeline", href: "/pipeline", icon: "GitBranch" },
     { name: "Activities", href: "/activities", icon: "Activity" },
   ]

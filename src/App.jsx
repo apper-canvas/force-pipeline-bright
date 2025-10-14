@@ -1,25 +1,27 @@
-import { createContext, useEffect, useState, lazy, Suspense } from 'react'
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { setUser, clearUser } from '@/store/userSlice'
-import { ToastContainer } from 'react-toastify'
-import Layout from '@/components/organisms/Layout'
-import { getRouteConfig, verifyRouteAccess } from '@/router/route.utils'
+import React, { Suspense, createContext, lazy, useEffect, useState } from "react";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import { getRouteConfig, verifyRouteAccess } from "@/router/route.utils";
+import { clearUser, setUser } from "@/store/userSlice";
+import Layout from "@/components/organisms/Layout";
 
+const Login = lazy(() => import('@/components/pages/Login'))
+const Signup = lazy(() => import('@/components/pages/Signup'))
+const Callback = lazy(() => import('@/components/pages/Callback'))
+const ErrorPage = lazy(() => import('@/components/pages/ErrorPage'))
+const PromptPassword = lazy(() => import('@/components/pages/PromptPassword'))
+const ResetPassword = lazy(() => import('@/components/pages/ResetPassword'))
 const Dashboard = lazy(() => import('@/components/pages/Dashboard'))
 const Contacts = lazy(() => import('@/components/pages/Contacts'))
 const ContactForm = lazy(() => import('@/components/pages/ContactForm'))
+const Companies = lazy(() => import('@/components/pages/Companies'))
+const CompanyForm = lazy(() => import('@/components/pages/CompanyForm'))
 const Pipeline = lazy(() => import('@/components/pages/Pipeline'))
 const DealForm = lazy(() => import('@/components/pages/DealForm'))
 const Activities = lazy(() => import('@/components/pages/Activities'))
 const ActivityForm = lazy(() => import('@/components/pages/ActivityForm'))
 const NotFound = lazy(() => import('@/components/pages/NotFound'))
-const Login = lazy(() => import('@/components/pages/Login'))
-const Signup = lazy(() => import('@/components/pages/Signup'))
-const Callback = lazy(() => import('@/components/pages/Callback'))
-const ErrorPage = lazy(() => import('@/components/pages/ErrorPage'))
-const ResetPassword = lazy(() => import('@/components/pages/ResetPassword'))
-const PromptPassword = lazy(() => import('@/components/pages/PromptPassword'))
 
 export const AuthContext = createContext(null)
 
@@ -150,11 +152,14 @@ function App() {
         <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<Suspense fallback={<div>Loading...</div>}><PromptPassword /></Suspense>} />
         <Route path="/reset-password/:appId/:fields" element={<Suspense fallback={<div>Loading...</div>}><ResetPassword /></Suspense>} />
         
-        <Route path="/" element={<Layout />}>
+<Route path="/" element={<Layout />}>
           <Route index element={<Suspense fallback={<div>Loading...</div>}><Dashboard /></Suspense>} />
           <Route path="contacts" element={<Suspense fallback={<div>Loading...</div>}><Contacts /></Suspense>} />
           <Route path="contacts/new" element={<Suspense fallback={<div>Loading...</div>}><ContactForm /></Suspense>} />
           <Route path="contacts/:id/edit" element={<Suspense fallback={<div>Loading...</div>}><ContactForm /></Suspense>} />
+          <Route path="companies" element={<Suspense fallback={<div>Loading...</div>}><Companies /></Suspense>} />
+          <Route path="companies/new" element={<Suspense fallback={<div>Loading...</div>}><CompanyForm /></Suspense>} />
+          <Route path="companies/:id/edit" element={<Suspense fallback={<div>Loading...</div>}><CompanyForm /></Suspense>} />
           <Route path="pipeline" element={<Suspense fallback={<div>Loading...</div>}><Pipeline /></Suspense>} />
           <Route path="deals/new" element={<Suspense fallback={<div>Loading...</div>}><DealForm /></Suspense>} />
           <Route path="deals/edit/:id" element={<Suspense fallback={<div>Loading...</div>}><DealForm /></Suspense>} />

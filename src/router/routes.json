@@ -35,6 +35,30 @@
     "redirectOnDeny": "/login",
     "excludeRedirectQuery": false
   },
+"/companies": {
+    "when": {
+      "conditions": [
+        {
+          "label": "User must be logged in",
+          "rule": "authenticated"
+        }
+      ]
+    },
+    "redirectOnDeny": "/login",
+    "excludeRedirectQuery": false
+  },
+  "/companies/*": {
+    "when": {
+      "conditions": [
+        {
+          "label": "User must be logged in",
+          "rule": "authenticated"
+        }
+      ]
+    },
+    "redirectOnDeny": "/login",
+    "excludeRedirectQuery": false
+  },
   "/pipeline": {
     "when": {
       "conditions": [
