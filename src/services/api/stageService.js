@@ -1,21 +1,71 @@
-import mockStages from "@/services/mockData/stages.json"
+const { ApperClient } = window.ApperSDK
 
-let stages = [...mockStages]
-
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+const apperClient = new ApperClient({
+  apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+  apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+})
 
 export const stageService = {
   async getAll() {
-    await delay(200)
-    return [...stages].sort((a, b) => a.order - b.order)
+    try {
+      const params = {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "name_c"}},
+          {"field": {"Name": "order_c"}},
+          {"field": {"Name": "color_c"}}
+        ],
+        orderBy: [{"fieldName": "order_c", "sorttype": "ASC"}],
+        pagingInfo: {"limit": 100, "offset": 0}
+      }
+      
+      const response = await apperClient.fetchRecords('stage_c', params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        return []
+      }
+      
+      return response.data.map(stage => ({
+        Id: stage.Id,
+        name: stage.name_c || '',
+        order: stage.order_c || 0,
+        color: stage.color_c || '#6B7280'
+      }))
+    } catch (error) {
+      console.error("Error fetching stages:", error?.response?.data?.message || error)
+      return []
+    }
   },
 
   async getById(id) {
-    await delay(150)
-    const stage = stages.find(s => s.Id === id)
-    if (!stage) {
-      throw new Error("Stage not found")
+    try {
+      const params = {
+        fields: [
+          {"field": {"Name": "Id"}},
+          {"field": {"Name": "name_c"}},
+          {"field": {"Name": "order_c"}},
+          {"field": {"Name": "color_c"}}
+        ]
+      }
+      
+      const response = await apperClient.getRecordById('stage_c', id, params)
+      
+      if (!response.success) {
+        console.error(response.message)
+        return null
+      }
+      
+      const stage = response.data
+      return {
+        Id: stage.Id,
+        name: stage.name_c || '',
+        order: stage.order_c || 0,
+        color: stage.color_c || '#6B7280'
+      }
+    } catch (error) {
+      console.error(`Error fetching stage ${id}:`, error?.response?.data?.message || error)
+      return null
     }
-    return { ...stage }
   }
 }

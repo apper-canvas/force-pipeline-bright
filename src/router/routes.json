@@ -1,0 +1,146 @@
+{
+  "/": {
+    "when": {
+      "conditions": [
+        {
+          "label": "User must be logged in",
+          "rule": "authenticated"
+        }
+      ]
+    },
+    "redirectOnDeny": "/login",
+    "excludeRedirectQuery": false
+  },
+  "/contacts": {
+    "when": {
+      "conditions": [
+        {
+          "label": "User must be logged in",
+          "rule": "authenticated"
+        }
+      ]
+    },
+    "redirectOnDeny": "/login",
+    "excludeRedirectQuery": false
+  },
+  "/contacts/*": {
+    "when": {
+      "conditions": [
+        {
+          "label": "User must be logged in",
+          "rule": "authenticated"
+        }
+      ]
+    },
+    "redirectOnDeny": "/login",
+    "excludeRedirectQuery": false
+  },
+  "/pipeline": {
+    "when": {
+      "conditions": [
+        {
+          "label": "User must be logged in",
+          "rule": "authenticated"
+        }
+      ]
+    },
+    "redirectOnDeny": "/login",
+    "excludeRedirectQuery": false
+  },
+  "/deals/*": {
+    "when": {
+      "conditions": [
+        {
+          "label": "User must be logged in",
+          "rule": "authenticated"
+        }
+      ]
+    },
+    "redirectOnDeny": "/login",
+    "excludeRedirectQuery": false
+  },
+  "/activities": {
+    "when": {
+      "conditions": [
+        {
+          "label": "User must be logged in",
+          "rule": "authenticated"
+        }
+      ]
+    },
+    "redirectOnDeny": "/login",
+    "excludeRedirectQuery": false
+  },
+  "/activities/*": {
+    "when": {
+      "conditions": [
+        {
+          "label": "User must be logged in",
+          "rule": "authenticated"
+        }
+      ]
+    },
+    "redirectOnDeny": "/login",
+    "excludeRedirectQuery": false
+  },
+  "/login": {
+    "when": {
+      "conditions": [
+        {
+          "label": "Anyone can access login",
+          "rule": "public"
+        }
+      ]
+    }
+  },
+  "/signup": {
+    "when": {
+      "conditions": [
+        {
+          "label": "Anyone can access signup",
+          "rule": "public"
+        }
+      ]
+    }
+  },
+  "/callback": {
+    "when": {
+      "conditions": [
+        {
+          "label": "Anyone can access callback",
+          "rule": "public"
+        }
+      ]
+    }
+  },
+  "/error": {
+    "when": {
+      "conditions": [
+        {
+          "label": "Anyone can access error page",
+          "rule": "public"
+        }
+      ]
+    }
+  },
+  "/prompt-password/:appId/:emailAddress/:provider": {
+    "when": {
+      "conditions": [
+        {
+          "label": "Anyone can access prompt password",
+          "rule": "public"
+        }
+      ]
+    }
+  },
+  "/reset-password/:appId/:fields": {
+    "when": {
+      "conditions": [
+        {
+          "label": "Anyone can access reset password",
+          "rule": "public"
+        }
+      ]
+    }
+  }
+}
