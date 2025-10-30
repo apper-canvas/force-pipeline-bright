@@ -64,16 +64,7 @@ const navigation = [
           </nav>
 
 {/* Actions */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => navigate("/contacts/new")}
-              className="flex items-center space-x-2"
-            >
-              <ApperIcon name="Plus" size={16} />
-              <span>Add Contact</span>
-            </Button>
+<div className="hidden md:flex items-center space-x-4">
             <Button
               variant="outline"
               size="sm"
@@ -117,18 +108,6 @@ const navigation = [
                 </Link>
               ))}
 <div className="pt-4 mt-4 border-t border-gray-200 space-y-2">
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={() => {
-                    setMobileMenuOpen(false)
-                    navigate("/contacts/new")
-                  }}
-                  className="w-full flex items-center justify-center space-x-2"
-                >
-                  <ApperIcon name="Plus" size={16} />
-                  <span>Add Contact</span>
-                </Button>
                 <Button
                   variant="outline"
                   size="sm"

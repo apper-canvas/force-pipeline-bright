@@ -103,13 +103,6 @@ const Dashboard = () => {
         </div>
         <div className="flex items-center space-x-4">
           <button
-            onClick={() => navigate("/contacts/new")}
-            className="btn-primary flex items-center space-x-2"
-          >
-            <ApperIcon name="UserPlus" size={16} />
-            <span>Add Contact</span>
-          </button>
-          <button
             onClick={() => navigate("/pipeline")}
             className="btn-secondary flex items-center space-x-2"
           >
