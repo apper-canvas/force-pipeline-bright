@@ -75,7 +75,10 @@ const ContactModal = ({
                   <div className="flex items-center space-x-4">
                     <Avatar name={contact.name} size="lg" />
                     <div>
-                      <h2 className="text-xl font-semibold">{contact.name}</h2>
+<h2 className="text-xl font-semibold">{contact.name}</h2>
+                      {contact.title && (
+                        <p className="text-sm text-gray-600">{contact.title}</p>
+                      )}
                       <p className="text-primary-100">{contact.company}</p>
                     </div>
                   </div>
@@ -137,7 +140,7 @@ const ContactModal = ({
                       <div className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div className="space-y-4">
-                            <div>
+<div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Name
                               </label>
@@ -149,6 +152,14 @@ const ContactModal = ({
                               </label>
                               <p className="text-gray-900">{contact.company}</p>
                             </div>
+                            {contact.title && (
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Title
+                                </label>
+                                <p className="text-gray-900">{contact.title}</p>
+                              </div>
+                            )}
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Email
@@ -161,6 +172,14 @@ const ContactModal = ({
                               </label>
                               <p className="text-gray-900">{formatPhone(contact.phone)}</p>
                             </div>
+                            {contact.address && (
+                              <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                  Address
+                                </label>
+                                <p className="text-gray-900 whitespace-pre-line">{contact.address}</p>
+                              </div>
+                            )}
                           </div>
                           <div className="space-y-4">
                             <div>

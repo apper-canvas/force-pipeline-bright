@@ -57,12 +57,14 @@ const Contacts = () => {
   useEffect(() => {
     let filtered = [...contacts]
 
-    // Search filter
+// Search filter
     if (searchTerm) {
       filtered = filtered.filter(contact =>
         contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         contact.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
         contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (contact.title && contact.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (contact.address && contact.address.toLowerCase().includes(searchTerm.toLowerCase())) ||
         contact.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
       )
     }
@@ -203,8 +205,8 @@ const Contacts = () => {
       <div className="card p-6 space-y-4">
         <div className="flex flex-col lg:flex-row gap-4">
           <div className="flex-1">
-            <SearchBar
-              placeholder="Search contacts by name, company, email, or tags..."
+<SearchBar
+              placeholder="Search contacts by name, company, title, address, email, or tags..."
               value={searchTerm}
               onChange={setSearchTerm}
             />

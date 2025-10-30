@@ -22,7 +22,10 @@ const ContactCard = ({
         <div className="flex items-center space-x-3">
           <Avatar name={contact.name} size="default" />
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-gray-900 truncate">{contact.name}</h3>
+<h3 className="font-semibold text-gray-900 truncate">{contact.name}</h3>
+            {contact.title && (
+              <p className="text-sm text-gray-500 truncate">{contact.title}</p>
+            )}
             <p className="text-sm text-gray-600 truncate">{contact.company}</p>
           </div>
         </div>
@@ -43,7 +46,7 @@ const ContactCard = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-lg font-semibold text-gray-900 truncate">
-              {contact.name}
+{contact.name}
             </h3>
             <div className="flex items-center space-x-2 text-gray-400">
               <ApperIcon name="Clock" size={14} />
@@ -53,8 +56,10 @@ const ContactCard = ({
             </div>
           </div>
           
+          {contact.title && (
+            <p className="text-sm text-gray-600 mb-1 truncate">{contact.title}</p>
+          )}
           <p className="text-gray-600 mb-3 truncate">{contact.company}</p>
-          
           <div className="space-y-2 mb-4">
             {contact.email && (
               <div className="flex items-center space-x-2 text-sm text-gray-600">

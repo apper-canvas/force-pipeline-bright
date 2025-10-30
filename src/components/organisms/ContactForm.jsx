@@ -17,10 +17,12 @@ const ContactForm = ({
   const [companies, setCompanies] = useState([])
   const [companiesLoading, setCompaniesLoading] = useState(true)
   const [formData, setFormData] = useState({
-    name: contact?.name || "",
+name: contact?.name || "",
     companyId: contact?.companyId || "",
     email: contact?.email || "",
     phone: contact?.phone || "",
+    title: contact?.title || "",
+    address: contact?.address || "",
     notes: contact?.notes || "",
     tags: contact?.tags?.join(", ") || ""
   })
@@ -105,7 +107,7 @@ if (!formData.email.trim()) {
 
 return (
     <form onSubmit={handleSubmit} className={cn("space-y-6", className)}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input
           name="name"
           label="Full Name"
@@ -132,6 +134,16 @@ return (
             }))
           ]}
         />
+        
+        <Input
+          name="title"
+          label="Job Title"
+          value={formData.title}
+          onChange={handleChange}
+          error={errors.title}
+          placeholder="Enter job title"
+        />
+        
         <Input
           name="email"
           type="email"
@@ -151,6 +163,18 @@ return (
           error={errors.phone}
           placeholder="Enter phone number"
         />
+        
+        <div className="md:col-span-2">
+          <Textarea
+            name="address"
+            label="Address"
+            value={formData.address}
+            onChange={handleChange}
+            error={errors.address}
+            placeholder="Enter address"
+            rows={3}
+          />
+        </div>
       </div>
 
       <Input
