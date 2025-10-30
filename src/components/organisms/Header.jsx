@@ -1,29 +1,22 @@
-import { useState, useContext } from "react"
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import { cn } from "@/utils/cn"
-import ApperIcon from "@/components/ApperIcon"
-import Button from "@/components/atoms/Button"
-import { AuthContext } from "@/App"
+import React, { useContext, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "@/App";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import SearchBar from "@/components/molecules/SearchBar";
+import { cn } from "@/utils/cn";
 
-const Header = () => {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { logout } = useContext(AuthContext)
-const navigation = [
-    { name: "Dashboard", href: "/", icon: "LayoutDashboard" },
-    { name: "Contacts", href: "/contacts", icon: "Users" },
-    { name: "Companies", href: "/companies", icon: "Building" },
-    { name: "Pipeline", href: "/pipeline", icon: "GitBranch" },
-    { name: "Activities", href: "/activities", icon: "Activity" },
-  ]
+export default function Header({ onMenuToggle, sidebarOpen }) {
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isActive = (href) => {
-    if (href === "/") {
-      return location.pathname === "/"
-    }
-    return location.pathname.startsWith(href)
-  }
+  const handleSearch = (value) => {
+    setSearchValue(value);
+    // TODO: Implement global search functionality
+    console.log("Searching for:", value);
+  };
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
@@ -44,27 +37,26 @@ const navigation = [
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "flex items-center space-x-2 px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                  isActive(item.href)
-                    ? "bg-primary-100 text-primary-700"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                )}
-              >
-                <ApperIcon name={item.icon} size={16} />
-                <span>{item.name}</span>
-              </Link>
-            ))}
-          </nav>
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={onMenuToggle}
+            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+          >
+            <ApperIcon name={sidebarOpen ? "X" : "Menu"} size={24} />
+          </button>
 
-{/* Actions */}
-<div className="hidden md:flex items-center space-x-4">
+          {/* Search Bar */}
+          <div className="flex-1 max-w-2xl mx-4">
+            <SearchBar
+              placeholder="Search contacts, companies, deals..."
+              value={searchValue}
+              onChange={setSearchValue}
+              onSearch={handleSearch}
+            />
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center space-x-4">
             <Button
               variant="outline"
               size="sm"
@@ -86,47 +78,7 @@ const navigation = [
             </button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200">
-            <nav className="space-y-2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={cn(
-                    "flex items-center space-x-3 px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                    isActive(item.href)
-                      ? "bg-primary-100 text-primary-700"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                  )}
-                >
-                  <ApperIcon name={item.icon} size={16} />
-                  <span>{item.name}</span>
-                </Link>
-              ))}
-<div className="pt-4 mt-4 border-t border-gray-200 space-y-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setMobileMenuOpen(false)
-                    logout()
-                  }}
-                  className="w-full flex items-center justify-center space-x-2"
-                >
-                  <ApperIcon name="LogOut" size={16} />
-                  <span>Logout</span>
-                </Button>
-              </div>
-            </nav>
-          </div>
-        )}
       </div>
     </header>
-  )
+  );
 }
-
-export default Header
